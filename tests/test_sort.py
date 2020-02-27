@@ -17,6 +17,11 @@ class SortTestCase(unittest.TestCase):
     def setUp(self):
         self.ts = []
         self.n_cases = 10
+        self.user_cases = [
+            ([0, 5, 3, 2, 2], [0, 2, 2, 3, 5]),
+            ([-2, -5, -45], [-45, -5, -2]),
+            ([], []),
+        ]
 
     def tearDown(self):
         avg_ms = 1e-6 * sum(self.ts) / self.n_cases
@@ -73,5 +78,28 @@ class SortTestCase(unittest.TestCase):
             ans = sorted(items)
             t1 = time.time_ns()
             sort.quick_sort_in_place(items)
+            self.ts.append(time.time_ns() - t1)
+            self.assertEqual(items, ans)
+
+    def test__shell_sort(self):
+        for items, ans in self.user_cases:
+            sort.shell_sort(items)
+            self.assertEqual(items, ans)
+        for items in self.generate_cases(self.n_cases):
+            ans = sorted(items)
+            t1 = time.time_ns()
+            sort.shell_sort(items)
+            self.ts.append(time.time_ns() - t1)
+            self.assertEqual(items, ans)
+
+
+    def test__heap_sort(self):
+        for items, ans in self.user_cases:
+            sort.heap_sort(items)
+            self.assertEqual(items, ans)
+        for items in self.generate_cases(self.n_cases):
+            ans = sorted(items)
+            t1 = time.time_ns()
+            sort.heap_sort(items)
             self.ts.append(time.time_ns() - t1)
             self.assertEqual(items, ans)

@@ -1,20 +1,21 @@
 """Sort Algorithms"""
 
 
-def insertion_sort(items):
+def insertion_sort(items, gap=1):
     """
-    1. copy the first of unsorted items to key
+    1. copy the first of unsorted items to temp
     2. shift sorted items that are less than the key to the right
     3. insert the key into the blank position
     4. repeat above steps for the remaining unsorted items
+
+    The `gap` argument is for shell sort insertion.
     """
-    for i in range(1, len(items)):
-        key = items[i]
-        j = i - 1
-        while j >= 0 and key < items[j]:
-            items[j + 1] = items[j]
-            j -= 1
-        items[j + 1] = key
+    for i in range(gap, len(items)):
+        temp, j = items[i], i
+        while j >= gap and items[j - gap] > temp:
+            items[j] = items[j - gap]
+            j -= gap
+        items[j] = temp
 
 
 def selection_sort(items):
@@ -91,33 +92,71 @@ def quick_sort_in_place(items):
             qs(items, pivot + 1, end)
 
     def partition(items, start, end):
-        pivot = start
+        pivot = items[end]
+        p = start
         for i in range(start, end):
-            if items[i] < items[end]:
-                items[i], items[pivot] = items[pivot], items[i]
-                pivot += 1
-        items[pivot], items[end] = items[end], items[pivot]
-        return pivot
+            if items[i] < pivot:
+                items[i], items[p] = items[p], items[i]
+                p += 1
+        items[p], items[end] = items[end], items[p]
+        return p
 
     qs(items, 0, len(items) - 1)
 
 
-def quick_sort(collection):
+def quick_sort(items):
     """
     Quick sort with O(n) auxiliry 
     """
-    length = len(collection)
+    length = len(items)
     if length <= 1:
-        return collection
-    else:
-        # Use the last element as the first pivot
-        pivot = collection.pop()
-        # Put elements greater than pivot in greater list
-        # Put elements lesser than pivot in lesser list
-        greater, lesser = [], []
-        for element in collection:
-            if element > pivot:
-                greater.append(element)
-            else:
-                lesser.append(element)
-        return [*quick_sort(lesser), pivot, *quick_sort(greater)]
+        return items
+    # Use the last element as the first pivot
+    pivot = items.pop()
+    # Put elements greater than pivot in greater list
+    # Put elements lesser than pivot in lesser list
+    greater, lesser = [], []
+    for item in items:
+        if item > pivot:
+            greater.append(item)
+        else:
+            lesser.append(item)
+    return [*quick_sort(lesser), pivot, *quick_sort(greater)]
+
+
+def shell_sort(items):
+    # Marcin Ciura's gap sequence
+    for gap in [701, 301, 132, 57, 23, 10, 4, 1]:
+        insertion_sort(items, gap=gap)
+
+
+def heap_sort(items):
+    """
+    Assume the sequence of items as a full binary tree:
+    1. bottom-up heapify the full binary tree to build a max heap
+    2. swap the heap top (max item in unsorted portion) with the nth-last item
+    to extend the sorted partition
+    3. heapify the remaining unsorted partition
+    """
+    def heapify(items, start, end):
+        parent, largest = start, items[start]
+        while (child := parent * 2 + 1) <= end:
+            if child < end:
+                # if parent has both left and right child
+                # then choose the greater one
+                child += (items[child] < items[child + 1])
+            if not largest < items[child]:
+                # top is greater than both children, ready for swapping top
+                # with current parent
+                break
+            # replace the value of current node with its larger child
+            # then move pointer to the larger child
+            items[parent], parent = items[child], child
+        items[parent] = largest
+
+    n = len(items)
+    for i in range(n // 2 - 1, -1, -1):
+        heapify(items, i, n - 1)
+    for i in range(n - 1, 0, -1):
+        items[0], items[i] = items[i], items[0]
+        heapify(items, 0, i - 1)
