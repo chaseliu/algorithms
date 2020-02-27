@@ -12,3 +12,6 @@ autopep8 = "*"
 
 [requires]
 python_version = "3.8"
+
+[scripts]
+test = "python -m unittest discover tests \"test_*.py\" -v"
