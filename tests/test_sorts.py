@@ -2,7 +2,7 @@ import unittest
 import random
 import time
 
-import sort
+import sorts
 
 
 class SortTestCase(unittest.TestCase):
@@ -37,7 +37,7 @@ class SortTestCase(unittest.TestCase):
         for items in self.generate_cases(self.n_cases):
             ans = sorted(items)
             t1 = time.time_ns()
-            sort.insertion_sort(items)
+            sorts.insertion_sort(items)
             self.ts.append(time.time_ns() - t1)
             self.assertEqual(items, ans)
 
@@ -45,7 +45,7 @@ class SortTestCase(unittest.TestCase):
         for items in self.generate_cases(self.n_cases):
             ans = sorted(items)
             t1 = time.time_ns()
-            sort.selection_sort(items)
+            sorts.selection_sort(items)
             self.ts.append(time.time_ns() - t1)
             self.assertEqual(items, ans)
 
@@ -61,7 +61,7 @@ class SortTestCase(unittest.TestCase):
         for items in self.generate_cases(self.n_cases):
             ans = sorted(items)
             t1 = time.time_ns()
-            sort.bubble_sort(items)
+            sorts.bubble_sort(items)
             self.ts.append(time.time_ns() - t1)
             self.assertEqual(items, ans)
 
@@ -69,7 +69,7 @@ class SortTestCase(unittest.TestCase):
         for items in self.generate_cases(self.n_cases):
             ans = sorted(items)
             t1 = time.time_ns()
-            res = sort.merge_sort(items)
+            res = sorts.merge_sort(items)
             self.ts.append(time.time_ns() - t1)
             self.assertEqual(res, ans)
 
@@ -77,7 +77,7 @@ class SortTestCase(unittest.TestCase):
         for items in self.generate_cases(self.n_cases):
             ans = sorted(items)
             t1 = time.time_ns()
-            res = sort.quick_sort(items)
+            res = sorts.quick_sort(items)
             self.ts.append(time.time_ns() - t1)
             self.assertEqual(res, ans)
 
@@ -85,29 +85,28 @@ class SortTestCase(unittest.TestCase):
         for items in self.generate_cases(self.n_cases):
             ans = sorted(items)
             t1 = time.time_ns()
-            sort.quick_sort_in_place(items)
+            sorts.quick_sort_in_place(items)
             self.ts.append(time.time_ns() - t1)
             self.assertEqual(items, ans)
 
     def test__shell_sort(self):
         for items, ans in self.user_cases:
-            sort.shell_sort(items)
+            sorts.shell_sort(items)
             self.assertEqual(items, ans)
         for items in self.generate_cases(self.n_cases):
             ans = sorted(items)
             t1 = time.time_ns()
-            sort.shell_sort(items)
+            sorts.shell_sort(items)
             self.ts.append(time.time_ns() - t1)
             self.assertEqual(items, ans)
 
-
     def test__heap_sort(self):
         for items, ans in self.user_cases:
-            sort.heap_sort(items)
+            sorts.heap_sort(items)
             self.assertEqual(items, ans)
         for items in self.generate_cases(self.n_cases):
             ans = sorted(items)
             t1 = time.time_ns()
-            sort.heap_sort(items)
+            sorts.heap_sort(items)
             self.ts.append(time.time_ns() - t1)
             self.assertEqual(items, ans)
