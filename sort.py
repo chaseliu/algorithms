@@ -34,6 +34,23 @@ def selection_sort(items):
             items[i], items[least] = items[least], items[i]
 
 
+def selection_sort_recursive(items):
+    """
+    Be careful recursively selection sort cannot work for many items!
+    """
+    def _sort(items, i, n):
+        if i < n - 1:
+            least = i
+            for j in range(i + 1, n):
+                if items[j] < items[least]:
+                    least = j
+            if least != i:
+                items[i], items[least] = items[least], items[i]
+            _sort(items, i + 1, n)
+
+    _sort(items, 0, len(items))
+
+
 def bubble_sort(items):
     """
     1. iterate over unsorted items, if one is greater than its right neighbor
@@ -140,7 +157,8 @@ def heap_sort(items):
     """
     def heapify(items, start, end):
         parent, largest = start, items[start]
-        while (child := parent * 2 + 1) <= end:
+        while parent * 2 + 1 <= end:
+            child = parent * 2 + 1
             if child < end:
                 # if parent has both left and right child
                 # then choose the greater one

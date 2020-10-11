@@ -49,6 +49,14 @@ class SortTestCase(unittest.TestCase):
             self.ts.append(time.time_ns() - t1)
             self.assertEqual(items, ans)
 
+    def test__selection_sort_recursive(self):
+        items = [random.randint(0, 100) for _ in range(10)]
+        ans = sorted(items)
+        t1 = time.time_ns()
+        sort.selection_sort_recursive(items)
+        self.ts.append(time.time_ns() - t1)
+        self.assertEqual(items, ans)
+
     def test__bubble_sort(self):
         for items in self.generate_cases(self.n_cases):
             ans = sorted(items)
