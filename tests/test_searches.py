@@ -33,5 +33,15 @@ class SearchTestCase(unittest.TestCase):
             arr = sorted(case)
             item = arr[random.randint(0, len(arr) - 1)]
             print(arr, item)
-            self.assertEqual(searches.interpolation_search(
-                arr, item), arr.index(item))
+            self.assertEqual(
+                searches.interpolation_search(arr, item),
+                arr.index(item)
+            )
+
+    def test__interpolation_search_manual_case(self):
+        arr = [4, 24, 40, 47, 53, 64, 73, 78, 79, 81]
+        item = 78
+        self.assertEqual(
+            searches.interpolation_search(arr, item),
+            arr.index(item)
+        )

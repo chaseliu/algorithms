@@ -53,7 +53,7 @@ class SortTestCase(unittest.TestCase):
         items = [random.randint(0, 100) for _ in range(10)]
         ans = sorted(items)
         t1 = time.time_ns()
-        sort.selection_sort_recursive(items)
+        sorts.selection_sort_recursive(items)
         self.ts.append(time.time_ns() - t1)
         self.assertEqual(items, ans)
 

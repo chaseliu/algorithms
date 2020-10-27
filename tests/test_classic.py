@@ -1,6 +1,6 @@
 import unittest
 
-from classic import hanoi, n_queens
+from classic import hanoi, n_queens, longest_mountain
 
 
 class HanoiTestCase(unittest.TestCase):
@@ -20,3 +20,10 @@ class QueenTestCase(unittest.TestCase):
         solves = n_queens(8)
         print(solves)
         self.assertEqual(len(solves), 92)
+
+
+class LongestMountainTestCase(unittest.TestCase):
+
+    def test__longest_mountain(self):
+        ans = longest_mountain([2, 1, 4, 7, 3, 2, 5])
+        self.assertEqual(ans, 5)

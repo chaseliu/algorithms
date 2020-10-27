@@ -10,9 +10,9 @@ def interpolation_search(arr, item):
         # mid will be the left most occurance
         mid = low + (item - arr[low]) * (high - low) // (arr[high] - arr[low])
         if arr[mid] < item:
-            high = mid - 1
-        elif arr[mid] > item:
             low = mid + 1
+        elif arr[mid] > item:
+            high = mid - 1
         else:
             return mid
     return -1
