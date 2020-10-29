@@ -102,11 +102,6 @@ def quick_sort_in_place(items):
     """
     Quick sort in-place version with O(log n) space complexity
     """
-    def qs(items, start, end):
-        if start < end:
-            pivot = partition(items, start, end)
-            qs(items, start, pivot - 1)
-            qs(items, pivot + 1, end)
 
     def partition(items, start, end):
         pivot = items[end]
@@ -117,6 +112,12 @@ def quick_sort_in_place(items):
                 p += 1
         items[p], items[end] = items[end], items[p]
         return p
+
+    def qs(items, start, end):
+        if start < end:
+            pivot = partition(items, start, end)
+            qs(items, start, pivot - 1)
+            qs(items, pivot + 1, end)
 
     qs(items, 0, len(items) - 1)
 
@@ -156,21 +157,25 @@ def heap_sort(items):
     3. heapify the remaining unsorted partition
     """
     def heapify(items, start, end):
-        parent, largest = start, items[start]
+        """
+        Swap the wrong top all the way down to the right position.
+        This function is meaningful for a TOP-INCORRECT ONLY heap!
+        """
+        parent = start
         while parent * 2 + 1 <= end:
             child = parent * 2 + 1
             if child < end:
                 # if parent has both left and right child
                 # then choose the greater one
                 child += (items[child] < items[child + 1])
-            if not largest < items[child]:
+            if items[parent] >= items[child]:
                 # top is greater than both children, ready for swapping top
                 # with current parent
                 break
-            # replace the value of current node with its larger child
-            # then move pointer to the larger child
-            items[parent], parent = items[child], child
-        items[parent] = largest
+            # swap the value of current node with its larger child
+            # then move parent to its larger child
+            items[parent], items[child] = items[child], items[parent]
+            parent = child
 
     n = len(items)
     for i in range(n // 2 - 1, -1, -1):
